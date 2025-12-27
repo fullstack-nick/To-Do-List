@@ -1,0 +1,361 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: lightgray;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    width: 100%;
+    max-height: 1050px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 90px;
+    background-color: rgb(161, 173, 204);
+    color: white;
+    border: none; /* Remove all borders */
+    border-bottom: 1px solid gray; /* Add only a bottom border */
+    outline: none; /* Remove default focus outline */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: rgb(161, 173, 204);
+    color: white;
+    border: none; /* Remove all borders */
+    border-top: 1px solid gray; /* Add only a bottom border */
+    outline: none; /* Remove default focus outline */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 1000;
+    flex: 1;
+}
+
+.center-wrap {
+    position: relative;
+    top: 90px;
+    bottom: 40px;
+    width: 100%;
+    height: 635px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.list {
+    position: absolute;
+    top: 75px;
+    height: 62px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    background-color: white;
+    border-radius: 15px;
+    padding: 10px;
+    overflow: hidden;
+    transition: top 2s ease, height 2s ease;
+}
+
+.list:has(.tasks > .task:nth-child(1)) {
+    height: 170px;
+}
+
+.list:has(.tasks > .task:nth-child(2)) {
+    top: 15px;
+    bottom: 15px;
+    height: calc(100% - 30px);
+}
+
+.tasks {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.list.scroll-ready .tasks {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.task {
+    width: 100%;
+    margin-bottom: 9px;
+    border: 0.5px dashed black;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    display: grid;
+    grid-template-columns: 4fr repeat(2, 1fr);
+    grid-template-rows: 1fr 0.5fr 1fr;
+    grid-template-areas:
+        "title btt1 btt2"
+        "hr hr hr"
+        "description description description";
+}
+
+.task_title {
+    grid-area: title;
+    padding-left: 10px;
+    padding-top: 10px;
+    font-size: 20px;
+}
+
+.task_btt_edit {
+    margin-top: 3px;
+    grid-area: btt1;
+    margin-left: 5px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px 10px;
+    height: 35px;
+    width: 60px;
+    border: 0.5px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.task_btt_del {
+    margin-top: 3px;
+    margin-right: 3px;
+    grid-area: btt2;
+    margin-left: 5px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px 10px;
+    height: 35px;
+    width: 60px;
+    border: 0.5px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.task_hr {
+    grid-area: hr;
+}
+
+.task_description {
+    grid-area: description;
+    padding-top: 5px;
+    padding-left: 10px;
+    color: rgb(94, 94, 94);
+    font-size: 14px;
+}
+
+.addBar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 10px 15px 10px;
+}
+
+.addBar_text {
+    padding-left: 15px;
+    margin-right: 5px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.addBar_button {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    height: 20px;
+    width: 30px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.i-size {
+    font-size: 10px;
+}
+
+.popup {
+    position: fixed;
+    z-index: 5000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    height: 550px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px; /* Optional: rounded corners */
+    padding: 40px;
+    display: none;
+    overflow: hidden;
+}
+
+.visible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+.form-title_text {
+    width: 370px;
+    height: 60px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-right: 10px;
+    padding-left: 10px;
+    font-size: 25px;
+}
+
+.form-title_btt {
+    margin-left: 5px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px 10px;
+    height: 30px;
+    width: 40px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-description_text {
+    margin-top: 5px;
+    width: 430px;
+    height: 320px;
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.popup_hr {
+    border: none; /* Removes the default border style */
+    width: 100%;
+    border-top: 1px dashed black; /* Adds a solid line with a light gray color */
+    margin: 20px 0;
+}
+
+.task_hr {
+    border: none; /* Removes the default border style */
+    width: 100%;
+    border-top: 0.5px dashed black; /* Adds a solid line with a light gray color */
+    margin: 12px 0px 10px 0px; /* Adds spacing above and below the line */
+}
+
+@media (max-width: 600px) {
+    .popup {
+        width: calc(100% - 24px);
+        max-width: 550px;
+        height: auto;
+        max-height: calc(100vh - 140px);
+        padding: 18px;
+        overflow-y: auto;
+    }
+
+    .form-title {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 10px;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    .form-title_text {
+        width: 100%;
+        flex: 1 1 100%;
+        height: 48px;
+        margin-right: 0;
+        font-size: 20px;
+    }
+
+    .form-title_btt {
+        margin-left: 0;
+        height: 34px;
+        width: 44px;
+    }
+
+    .form-description {
+        width: 100%;
+    }
+
+    .form-description_text {
+        width: 100%;
+        height: 180px;
+        font-size: 16px;
+    }
+
+    .popup_hr {
+        margin: 8px 0;
+    }
+}
+
+@media (max-width: 414px) {
+    .center-wrap {
+        height: calc(100vh - 130px);
+    }
+
+    .list {
+        width: calc(100% - 24px);
+    }
+
+    .addBar {
+        width: 100%;
+        padding: 0 4px;
+        margin: 10px 0 12px 0;
+    }
+
+    .addBar_text {
+        flex: 1;
+        min-width: 0;
+    }
+}
