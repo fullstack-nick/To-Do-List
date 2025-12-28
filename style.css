@@ -90,6 +90,34 @@ main {
     transition: top 2s ease, height 2s ease;
 }
 
+@media (min-width: 601px) {
+    .list {
+        --scrollbar-space: 5px;
+        width: calc(400px + (var(--scrollbar-space) * 4));
+    }
+
+    .tasks {
+        scrollbar-gutter: stable;
+        padding-left: calc(var(--scrollbar-space) * 4);
+        padding-right: var(--scrollbar-space);
+        scrollbar-color: #8A8A8A #f5f5f5;
+    }
+
+    .tasks::-webkit-scrollbar {
+        width: var(--scrollbar-space);
+    }
+
+    .tasks::-webkit-scrollbar-thumb {
+        background-color: #5a5a5a;
+        border-radius: 12px;
+        border: 4px solid #f5f5f5;
+    }
+
+    .tasks::-webkit-scrollbar-track {
+        background-color: #f5f5f5;
+    }
+}
+
 .list:has(.tasks > .task:nth-child(1)) {
     height: 170px;
 }
@@ -106,11 +134,12 @@ main {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    flex: 1;
+    min-height: 0;
+    overflow-y: hidden;
 }
 
 .list.scroll-ready .tasks {
-    flex: 1;
-    min-height: 0;
     overflow-y: auto;
 }
 
@@ -357,5 +386,47 @@ main {
     .addBar_text {
         flex: 1;
         min-width: 0;
+    }
+}
+
+@media (max-width: 430px) and (min-height: 900px) {
+    .center-wrap {
+        height: calc(100vh - 130px);
+    }
+}
+
+@media (min-width: 1024px) and (min-height: 1366px) {
+    .center-wrap {
+        height: calc(100vh - 130px);
+    }
+
+    .list {
+        width: calc(600px + (var(--scrollbar-space) * 4));
+    }
+
+    .list:has(.tasks > .task:nth-child(1)) {
+        height: 240px;
+    }
+
+    .list:has(.tasks > .task:nth-child(2)) {
+        top: 10px;
+        bottom: 10px;
+        height: calc(100% - 20px);
+    }
+
+    .addBar_text {
+        font-size: 22px;
+    }
+
+    .task_title {
+        font-size: 26px;
+    }
+
+    .task_description {
+        font-size: 18px;
+    }
+
+    .i-size {
+        font-size: 12px;
     }
 }

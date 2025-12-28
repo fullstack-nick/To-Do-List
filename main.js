@@ -37,10 +37,6 @@ function updateListScrollState() {
     if (!listElement.classList.contains("scroll-ready") && !scrollEnableTimer) {
       scrollEnableTimer = setTimeout(() => {
         listElement.classList.add("scroll-ready");
-        const tasksElement = document.getElementById("tasks");
-        if (tasksElement) {
-          tasksElement.scrollTop = tasksElement.scrollHeight;
-        }
         scrollEnableTimer = null;
       }, LIST_SCROLL_DELAY_MS);
     }
@@ -227,7 +223,12 @@ function displayArray(item) {
       <h6 class="task_description" id="task_description_${item.id}" data-number-id="${item.id}">${item.description}</h6>
     `;
     tasks.appendChild(div);
-    tasks.scrollTop = tasks.scrollHeight;
+    const listElement = document.getElementById("list");
+    if (listElement && listElement.classList.contains("scroll-ready")) {
+      if (tasks.scrollHeight - tasks.clientHeight > 4) {
+        tasks.scrollTop = tasks.scrollHeight;
+      }
+    }
     updateListScrollState();
 }
 
@@ -265,7 +266,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentStored = Storage.getList();
   currentStored.forEach(obj => list.addItemToList(obj));
 
-  displayStoredArray();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      displayStoredArray();
+    });
+  });
 
   document.getElementById("addBar_button").addEventListener("click", (e) => {
     e.preventDefault();
