@@ -13,7 +13,7 @@ class List {
   getList() {
     return this.list;
   }
-  
+
   clearList() {
     this.list = [];
   }
@@ -50,11 +50,11 @@ function updateListScrollState() {
 }
 
 function removeItemFromList(id) {
-    list.getList().forEach((item, index) => {
-      if (item.id == id) {
-        list.getList().splice(index, 1);
-      }
-    })
+  list.getList().forEach((item, index) => {
+    if (item.id == id) {
+      list.getList().splice(index, 1);
+    }
+  });
 }
 
 class Item {
@@ -64,8 +64,8 @@ class Item {
     this.id = id;
   }
 
-  returnObj () {
-    return {title: this.title, description: this.description, id: this.id};
+  returnObj() {
+    return { title: this.title, description: this.description, id: this.id };
   }
 }
 
@@ -81,19 +81,19 @@ class Storage {
   }
 
   static setStorage(list) {
-    localStorage.setItem('list', JSON.stringify(list));
+    localStorage.setItem("list", JSON.stringify(list));
   }
 
   static resetStorage() {
     let list = [];
-    localStorage.setItem('list', JSON.stringify(list));
+    localStorage.setItem("list", JSON.stringify(list));
   }
 }
 
 function addElement(title, description) {
   const currentStored = Storage.getList();
   let maxID = 0;
-  currentStored.forEach(item => {
+  currentStored.forEach((item) => {
     if (item.id > maxID) {
       maxID = item.id;
     }
@@ -114,13 +114,13 @@ function handlePop(numberID, elementTitle, elementDescription) {
   document.getElementById("form-title_close").addEventListener("click", (e) => {
     e.preventDefault();
     handleClose(e);
-  })
+  });
   if (typeof numberID != "undefined") {
-    popup.classList.toggle('visible');
+    popup.classList.toggle("visible");
   } else {
     const title = document.getElementById("addBar_text").value;
     document.getElementById("form-title_text").value = title;
-    popup.classList.toggle('visible');
+    popup.classList.toggle("visible");
   }
 
   const addBtn = document.getElementById("form-title_add");
@@ -137,7 +137,7 @@ function handlePop(numberID, elementTitle, elementDescription) {
 function handleClose(e) {
   if (PopIsHandling == true && buttonPressed != "add") {
     e.preventDefault();
-    document.getElementById("popup").classList.toggle('visible');
+    document.getElementById("popup").classList.toggle("visible");
     document.getElementById("form-title_text").value = "";
     document.getElementById("form-description_text").value = "";
     buttonPressed = "close";
@@ -156,13 +156,13 @@ function handleAdd(e, numberID, elementTitle, elementDescription) {
       if (elementTitle != popup_title || elementDescription != popup_description) {
         elementTitle_new.textContent = popup_title;
         elementDescription_new.textContent = popup_description;
-        document.getElementById("popup").classList.toggle('visible');
+        document.getElementById("popup").classList.toggle("visible");
         document.getElementById("form-title_text").value = "";
         document.getElementById("form-description_text").value = "";
         buttonPressed = "";
         PopIsHandling = false;
       } else {
-        document.getElementById("popup").classList.toggle('visible');
+        document.getElementById("popup").classList.toggle("visible");
         document.getElementById("form-title_text").value = "";
         document.getElementById("form-description_text").value = "";
         buttonPressed = "";
@@ -176,7 +176,7 @@ function handleAdd(e, numberID, elementTitle, elementDescription) {
         addElement(popup_title, popup_description);
       }
       document.getElementById("addBar_text").value = "";
-      document.getElementById("popup").classList.toggle('visible');
+      document.getElementById("popup").classList.toggle("visible");
       document.getElementById("form-title_text").value = "";
       document.getElementById("form-description_text").value = "";
       buttonPressed = "add";
@@ -190,7 +190,7 @@ function handleEdit(btn) {
   const elementTitle = document.getElementById(`task_title_${numberID}`).textContent;
   const elementDescription = document.getElementById(`task_description_${numberID}`).textContent;
   document.getElementById("form-title_text").value = elementTitle;
-  document.getElementById("form-description_text").value = elementDescription; 
+  document.getElementById("form-description_text").value = elementDescription;
   handlePop(numberID, elementTitle, elementDescription);
 }
 
@@ -198,9 +198,8 @@ function handleDelete(btn) {
   const numberID = btn.getAttribute("data-number-id");
   const task = document.getElementById(`task_${numberID}`);
   task.style.opacity = 0;
-  task.style.transform = 'scale(0.98)';
+  task.style.transform = "scale(0.98)";
   removeItemFromList(numberID);
-  console.log(list.getList());
   Storage.setStorage(list.getList());
   setTimeout(() => {
     task.remove();
@@ -213,30 +212,30 @@ function displayArray(item) {
   const div = document.createElement("div");
   const ID = `${item.id}`;
   div.setAttribute("data-number-id", ID);
-    div.classList.add("task");
-    div.id = `task_${item.id}`;
-    div.innerHTML = `
+  div.classList.add("task");
+  div.id = `task_${item.id}`;
+  div.innerHTML = `
       <h3 class="task_title" id="task_title_${item.id}" data-number-id="${item.id}">${item.title}</h3>
       <button class="task_btt_edit" id="task_btt_edit_${item.id}" data-number-id="${item.id}"><i class="fa-solid fa-pen-to-square"></i></button>
       <button class="task_btt_del" id="task_btt_del_${item.id}" data-number-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
       <hr class="task_hr">
       <h6 class="task_description" id="task_description_${item.id}" data-number-id="${item.id}">${item.description}</h6>
     `;
-    tasks.appendChild(div);
-    const listElement = document.getElementById("list");
-    if (listElement && listElement.classList.contains("scroll-ready")) {
-      if (tasks.scrollHeight - tasks.clientHeight > 4) {
-        tasks.scrollTop = tasks.scrollHeight;
-      }
+  tasks.appendChild(div);
+  const listElement = document.getElementById("list");
+  if (listElement && listElement.classList.contains("scroll-ready")) {
+    if (tasks.scrollHeight - tasks.clientHeight > 4) {
+      tasks.scrollTop = tasks.scrollHeight;
     }
-    updateListScrollState();
+  }
+  updateListScrollState();
 }
 
 function displayStoredArray() {
   const tasks = document.getElementById("tasks");
   const currentStored = Storage.getList();
   list.clearList();
-  currentStored.forEach(obj => {
+  currentStored.forEach((obj) => {
     list.addItemToList(obj);
   });
   if (currentStored != []) {
@@ -261,10 +260,10 @@ function displayStoredArray() {
 
 document.addEventListener("DOMContentLoaded", () => {
   list.clearList();
-    // Storage.resetStorage();
+  // Storage.resetStorage();
 
   const currentStored = Storage.getList();
-  currentStored.forEach(obj => list.addItemToList(obj));
+  currentStored.forEach((obj) => list.addItemToList(obj));
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -279,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       alert("Please enter the task title.");
     }
-  })
+  });
 
   document.getElementById("tasks").addEventListener("click", (e) => {
     if (e.target.classList.contains("fa-pen-to-square")) {
@@ -289,7 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // They clicked the button directly
       handleEdit(e.target);
     }
-  })
+  });
 
   document.getElementById("tasks").addEventListener("click", (e) => {
     if (e.target.classList.contains("fa-trash")) {
@@ -299,5 +298,5 @@ document.addEventListener("DOMContentLoaded", () => {
       // They clicked the button directly
       handleDelete(e.target);
     }
-  })
-})
+  });
+});
