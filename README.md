@@ -2,10 +2,6 @@
 
 Simple, browser-based to-do list that lets you add, edit, and remove tasks with optional descriptions, stored locally in your browser.
 
-## Overview
-
-This project is a lightweight, front-end-only to-do list for quickly capturing tasks and short descriptions. It targets users who want a simple list that works entirely in the browser without accounts, servers, or setup.
-
 ## Features
 
 **Core**
